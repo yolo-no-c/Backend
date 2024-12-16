@@ -1,0 +1,82 @@
+[
+    {
+        "titulo": "Xbox One S",
+        "descripcion": "Microsoft Xbox One S 500gb Consola De Juegos fue presentado el 13 de junio y lanzado el 2 de agosto del 2016 al mercado. Introducción a la nueva Xbox One S. Juega a la mayor alineación de juegos, incluyendo clásicos de Xbox 360, en una consola 40% más pequeña con High Dynamic Range. Guarde más juegos que nunca con un enorme disco duro de 1TB. Transmita video de 4K en Netflix y Amazon Video, y ve películas UHD Blu-ray con una fidelidad visual impresionante.",
+        "precio": 1000.00,
+        "imagen": "imagen1",
+        "categoria": "consolas",
+        "codigo": "ABC122",
+        "existencias": 20,
+        "id": 1
+    },
+    {
+        "titulo": "PlayStation 5",
+        "descripcion": "Sumérgete en una experiencia de juego sin igual con la Sony PlayStation 5 Slim 1TB Extra DualSense Controller Color. Esta consola de sobremesa, lanzada en 2023, combina un diseño elegante y compacto con un rendimiento potente, ideal para cualquier entusiasta de los videojuegos. Con una capacidad de almacenamiento de 1 TB, tendrás espacio de sobra para tus juegos favoritos y contenido adicional.",
+        "precio": 900.000,
+        "imagen": "imagen2",
+        "categoria": "consolas",
+        "codigo": "ABC123",
+        "existencias": 10,
+        "id": 2
+    },
+    {
+        "titulo": "SPIDERMAN 2",
+        "descripcion": "Los Spider-Men Peter Parker y Miles Morales se enfrentan a la prueba de fuerza definitiva dentro y fuera de sus trajes mientras luchan por salvar a la ciudad, a sus seres queridos y a ellos mismos, del monstruoso Venom y la peligrosa nueva amenaza simbionte.Explora la enorme Nueva York de Marvel con mayor velocidad de balanceo y las nuevas alas de telaraña, mientras cambias rápidamente entre Peter y Miles para disfrutar de las diferentes historias, habilidades épicas y equipo de alta tecnología.",
+        "precio": 90.00,
+        "imagen": "imagen3",
+        "categoria": "game",
+        "codigo": "ABC124",
+        "existencias": 7,
+        "id": 3
+    },
+    {
+        "titulo": "EA FC 24",
+        "descripcion": "EA SPORTS FC™ 24 representa una nueva era para el Juego de Todos: más de 19,000 futbolistas con licencia total, más de 700 equipos y más de 30 ligas en la experiencia futbolística más auténtica jamás creada Siéntete más cerca del juego con tres tecnologías de última generación que potencian un realismo sin igual en cada partido: HyperMotionV , PlayStyles optimizados por Opta y un motor Frostbite™ revolucionado.",
+        "precio": 65.00,
+        "imagen": "imagen4",
+        "categoria": "game",
+        "codigo": "ABC125",
+        "existencias": 8,
+        "id": 4
+    },
+    {
+        "titulo": "NINTENDO",
+        "descripcion": "Pantalla OLED de 7 pulgadas (17.78 cm) Deleita tus ojos con colores brillantes y contrastes definidos cuando juegues en el camino. Mira la diferencia que ofrece una pantalla vibrante cuando compites a toda velocidad o cuando combates a tus enemigos.",
+        "precio": 500.000,
+        "imagen": "imagen5",
+        "categoria": "consolas",
+        "codigo": "ABC126",
+        "existencias": 20,
+        "id": 5
+    },
+    {
+        "titulo": "Mafia Definitive",
+        "descripcion": "Un percance con la mafia introduce al taxista Tommy Angelo en el crimen organizado. A pesar de su reticencia inicial, las ventajas de unirse a la familia Salieri son demasiadas como para ignorarlas.",
+        "precio": 80.00,
+        "imagen": "imagen6",
+        "categoria": "game",
+        "codigo": "ABC127",
+        "existencias": 10,
+        "id": 6
+    },
+    {
+        "titulo": "MARIO",
+        "descripcion": "Haz equipo con Mario, Luigi, la princesa Peach, Rabbid Peach, Rabbid Luigi y sus amigos en un viaje galáctico para derrotar a una entidad malvada y salvar a tus compañeros Spark. ¡Explora planetas a través de la galaxia conforme descubres misteriosos secretos y disfrutas de atractivas misiones!",
+        "precio": 115.00,
+        "imagen": "imagen7",
+        "categoria": "game",
+        "codigo": "ABC128",
+        "existencias": 10,
+        "id": 7
+    },
+    {
+        "titulo": "Auriculares Gamer Maxell Force",
+        "descripcion": "¡Experimentá la adrenalina de sumergirte en la escena de otra manera! Tener auriculares específicos para jugar cambia completamente tu experiencia en cada partida. Con los Maxell FORCE 9 no te perdés ningún detalle y escuchás el audio tal y como fue diseñado por los creadores.",
+        "precio": 80.00,
+        "imagen": "imagen8",
+        "categoria": "Accesorios",
+        "codigo": "ABC129",
+        "existencias": 10,
+        "id": 8
+    }
+]
