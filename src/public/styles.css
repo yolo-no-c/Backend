@@ -1,0 +1,99 @@
+html {
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    margin: 0;
+    padding: 15px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    flex-flow: row wrap;
+    justify-items: center;
+  }
+  h1 {
+    width: 100%;
+    text-align: center;
+  }
+  .realTime {
+    display: flex;
+  }
+  
+  .realtimeproducts {
+    width: 100%;
+    border: 3px solid rgb(156, 37, 37);
+    background-color: #000000;
+    border-radius: 5%;
+  }
+  .realtimeproducts h3 {
+    text-align: center;
+    color: #ffff;
+  }
+  .products-container-rtp {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+  }
+  .cart {
+    margin: 10px;
+    padding: 10px;
+    background: radial-gradient(circle, rgba(0,0,0,1) 80%, rgba(255,0,0,0.6306897759103641) 100%);    border-radius: 10px;
+    border: 1px solid rgba(148, 35, 35, 0.719);
+    color: #ffff;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+  }
+  .cart p {
+    margin: 0;
+    padding: 0;
+    line-height: 20px;
+    text-align: center;
+  }
+  
+  .events {
+    flex-wrap: wrap;
+    width: 50%;
+    border: 2px solid;
+    border-color: brown;
+    padding: 10px;
+    align-items: center;
+  }
+  .formulario-add {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  #add-title,
+  #add-description,
+  #add-price,
+  #add-code,
+  #add-stock,
+  #add-category {
+    height: 2.5rem;
+    margin: 10px;
+    border-style: solid;
+    border-color: #000000;
+    border-radius: 10px;
+  }
+  #button-add {
+    background-color: black;
+    color: aliceblue;
+   text-align: center;
+  }
+  
+  .products-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .home {
+    background-color: cornflowerblue;
+  }
+  .delete-button {
+    background-color: red;
+    width: 75%;
+    align-items: center;
+  }

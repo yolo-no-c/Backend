@@ -1,5 +1,6 @@
-import { fileURLToPath } from "url";
-import { dirname } from "path";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
-export const __dirname = dirname(fileURLToPath(import.meta.url));
-console.log(__dirname);
+const __filename = fileURLToPath(import.meta.url) // nos da la ruta desde donde se esta haciendo el import
+
+export const __dirname = dirname(__filename)

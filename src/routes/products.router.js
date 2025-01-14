@@ -1,55 +1,62 @@
 import { Router } from "express";
-import ProductManager from "../managers/gestorProductos.js";
+import ProductManager from "../class/productManager.js";
 import { __dirname } from "../utils.js";
 
-const manager = new ProductManager(__dirname + "/files/products.json");
 const router = Router();
+const productManager = new ProductManager(__dirname + "/data/products.json");
 
-router.get('/', async (req, res) => {
-    const { limit } = req.query;
-    const products = await manager.obtenerProductos();
-    if (limit) {
-        const limited = products.slice(0, limit);
-        res.status(200).json(limited);
-    } else {
-        res.status(200).json(products);
-    }
-});
-router.get("/:pid", async (req, res) => {
-    const id = parseInt(req.params.pid);
-    const product = await manager.obtenerProductosPorId(id);
-    if (product) {
-        res.status(200).json(product);
-    } else {
-        res.status(400).json({ message: "Producto no encontrado" });
-    }
-});
-
-router.post('/', async (req, res) => {
-
+router.get("/", async (req, res) => {
     try {
-        const product = await manager.agregarProducto(req.body);
-        if (product === "El codigo ingresado ya existe") {
-            res.status(400).json({ message: "Error al crear el producto", product });
-        } else if (product === "Complete todos los campos") {
-            res.status(400).json({ message: "Error al crear el producto", product });
-        } else {
-            res.status(201).json({ message: "Producto creado", product });
-        }
+        const data = await productManager.getAllProducts();
+        res.json(data);
     } catch (error) {
-        throw new error("Error al crear el producto", error);
+        res.status(500).json({ mensaje: "Error al obtener los productos" });
+    }
+});
+
+router.get("/:pid", async (req, res) => {
+    try {
+        const pid = req.params.pid;
+        const data = await productManager.getProduct(pid);
+        if (data) {
+            res.json(data);
+        } else {
+            res.status(404).json({ mensaje: "No se encontro el producto" });
+        }
+    } catch {
+        res.status(404).json({ mensaje: "Error al obtener el producto" });
+    }
+});
+
+router.post("/", async (req, res) => {
+    try {
+        const newProduct = req.body;
+        await productManager.addProduct(newProduct);
+        res.status(201).json(newProduct);
+    } catch (error) {
+        res.status(500).json({ mensaje: "Error al agregar el producto" });
     }
 });
 
 router.put("/:pid", async (req, res) => {
-    const id = parseInt(req.params.pid);
-    const product = await manager.actualizarProducto(id, req.body);
-    if (product) {
-        res.status(200).json({ message: "Producto actualizado", product });
-    } else {
-        res.status(400).json({ message: "Error al actualizar el producto" });
+    const pid = req.params.pid;
+    const newProduct = req.body;
+    try {
+        await productManager.updateProduct(newProduct, pid);
+        res.status(200).json(newProduct);
+    } catch (error) {
+        res.status(500).json({ mensaje: "Error al actualizar el producto" });       
     }
 });
-// router.delete();
 
-export default router; //export por default para que en otras partes de mi proyecto se pueda utilizar e importar
+router.delete("/:pid", async (req, res) => {
+    const pid = req.params.pid;
+    try {
+        await productManager.deleteProduct(pid);
+        res.status(200).json({ mensaje: "Producto eliminado" });
+    } catch (error) {
+        res.status(500).json({ mensaje: "Error al eliminar el producto" });
+    }
+});
+
+export default router;
