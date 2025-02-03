@@ -1,45 +1,139 @@
 import { Router } from "express";
-import CartsManager from "../class/cartsManager.js";
-import { __dirname } from "../utils.js";
+import { cartModel } from "../dao/mongo/models/cart.model.js";
+import { ProductModel } from "../dao/mongo/models/products.model.js";
 
 const router = Router();
-const cartsManager = new CartsManager(__dirname + "/data/carts.json");
 
-router.post("/", async (req, res) => {
-    try {
-        const newId = await cartsManager.addCart();
-        res
-            .status(201)
-            .json({ mensaje: "Carrito creado con exito", new_id_carrito: newId });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+router.get('/', async (req, res) => {
+    const response = await fetch(`http://localhost:8080/api/carts/679e786229c5021d6084e788`)
+    const cart = await response.json()
+    res.render('cart', {
+        css: 'carts',
+        cart: cart
+    })
+})
+
+// Obtener el carrito por su ID
+router.get('/:cid', async (req, res) => {
+    // Buscamos el carrito por su ID y hacemos un populate para obtener los productos
+    const response = await cartModel.find().populate('products.product');
+    res.json({ response });
 });
 
-router.get("/:cid", async (req, res) => {
-    const cid = parseInt(req.params.cid);
-    try {
-        const data = await cartsManager.getCart(cid);
-        res.status(200).json(data);
-    } catch (error) {
-        res
-            .status(404)
-            .json({ mensaje: "El ID no se encuentra en la base de datos", error: error.message });
-    }
-});
+// Agregar un producto al carrito
+router.post('/add', async (req, res) => {
+    const { productId, cantidad } = req.body;
 
-router.post("/:cid/products/:pid", async (req, res) => {
-    const cid = parseInt(req.params.cid);
-    const pid = parseInt(req.params.pid);
-    try {
-        await cartsManager.addProductToCart(cid, pid);
-        res.status(200).json({ mensaje: "Producto agregado al carrito con exito" });
-    } catch (error) {
-        res.status(404).json({
-            mensaje: "No se pudo agregar el producto al carrito :(",
-            error: error.message,
+    // Buscamos el carrito abierto, si no existe, creamos uno nuevo
+    let cart = await cartModel.findOne({ estado: 'abierto' });
+
+    if (!cart) {
+        cart = await cartModel.create({
+            fecha: new Date().toISOString().replace('T', ' ').slice(0, 19),
+            monto: 0,
+            estado: 'abierto',
+            products: []
         });
     }
+
+    // Buscamos el producto por su ID
+    const product = await ProductModel.findById(productId);
+
+    // Agregamos el producto al carrito y actualizamos el monto
+    cart.products.push({ product: productId, cantidad: cantidad });
+    cart.monto += product.precio * cantidad;
+
+    // Actualizamos el carrito en la base de datos
+    const result = await cartModel.updateOne({ _id: cart._id }, cart);
+
+    res.json({ result });
 });
+
+// Actualizar el carrito (agregar o modificar productos)
+router.put('/:cid', async (req, res) => {
+    const { cid } = req.params;
+    const { products } = req.body;
+    const { product, cantidad } = products[0];
+
+    // Buscamos el carrito por su ID
+    let cart = await cartModel.findOne({ _id: cid });
+
+    // Buscamos el producto por su ID
+    const product_m = await ProductModel.findById(product);
+
+    // Calculamos el nuevo monto basado en la cantidad del producto
+    const NuevoMonto = product_m.precio * cantidad;
+
+    // Verificamos si el producto ya existe en el carrito
+    const existingProductIndex = cart.products.findIndex((item) => item.product.toString() === product_m._id.toString());
+
+    // Si el producto ya existe, aumentamos la cantidad; de lo contrario, lo agregamos
+    if (existingProductIndex !== -1) {
+        cart.products[existingProductIndex].cantidad += cantidad;
+    } else {
+        cart.products.push({ product: product_m._id, cantidad });
+    }
+
+    // Actualizamos el monto total del carrito
+    cart.monto += NuevoMonto;
+
+    // Actualizamos el carrito en la base de datos
+    const result = await cartModel.updateOne({ _id: cid }, { products: cart.products, monto: cart.monto });
+
+    res.json({ payload: result });
+});
+
+// Actualizar la cantidad de un producto específico en el carrito
+router.put('/:cid/products/:pid', async (req, res) => {
+    const { cid, pid } = req.params;
+    const { cantidad } = req.body;
+
+    // Buscamos el carrito por su ID
+    const cart = await cartModel.findById(cid);
+
+    // Encontramos el índice del producto en el carrito
+    const prod_cart_id = cart.products.findIndex(item => item.product.toString() === pid);
+
+    // Actualizamos la cantidad del producto en el carrito
+    cart.products[prod_cart_id].cantidad = cantidad;
+
+    // Calculamos el nuevo total del carrito
+    let total = 0;
+    for (const item of cart.products) {
+        const itemProduct = await ProductModel.findById(item.product);
+        total += item.cantidad * itemProduct.precio;
+    }
+
+    // Actualizamos el carrito en la base de datos
+    const result = await cartModel.updateOne({ _id: cid }, { products: cart.products, monto: total });
+
+    res.json({ payload: result });
+});
+
+// Eliminar todos los productos del carrito
+router.delete('/:cid', async (req, res) => {
+
+    const { cid } = req.params
+
+    const result = await cartModel.updateOne({ _id: cid }, { products: [], monto: 0 })
+
+    res.json({ payload: result });
+})
+
+// Eliminar producto del carrito
+router.delete('/:cid/products/:pid', async (req, res) => {
+    const { cid, pid } = req.params;
+
+    const cart = await cartModel.findById(cid).populate('products.product')
+
+    const ProductoEliminar = cart.products.find(item => item.product._id.toString() === pid)
+
+    const nuevoMonto = cart.monto - (ProductoEliminar.cantidad * ProductoEliminar.product.precio)
+
+    const result = await cartModel.updateOne({ _id: cid }, { $pull: { products: { product: pid } }, monto: nuevoMonto > 0 ? nuevoMonto : 0 })
+
+    res.json({ payload: result })
+})
+
 
 export default router;
