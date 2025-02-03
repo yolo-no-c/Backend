@@ -14,12 +14,6 @@ body {
   background: black;
 }
 
-/* .bg-NavBar {
-  background: #326087;
-  margin: 10% 35%;
-  border-radius: 2rem;
-} */
-
 li {
   display: inline-block;
   margin: 0.5rem 1rem;
@@ -85,10 +79,6 @@ li {
   border: none;
 }
 
-.btn-add {
-  background-color: rgb(61, 239, 108);
-}
-
 .btn-delete {
   background-color: rgb(12, 12, 12);
   color: white;
@@ -116,7 +106,7 @@ li {
 .card {
   background: radial-gradient(circle, rgba(50, 96, 135) 0%, rgba(0, 0, 0, 0.6783088235294117) 100%);
   border-radius: 10px;
-  width: 250px;
+  width: 25vh;
   height: auto;
   padding: 1rem;
   margin: 1rem;
@@ -161,11 +151,10 @@ li {
   display: flex;
   justify-content: center;
   vertical-align: middle;
-  gap: 1.5rem;
 }
 
 .btn-card {
-  width: 75% !important;
+  width: 100% !important;
   --bs-btn-color: #fff;
   --bs-btn-bg: #212529;
   --bs-btn-border-color: #ffffff;
@@ -189,4 +178,22 @@ li {
   padding: 2rem;
   gap: 2rem;
   flex-wrap: wrap;
+}
+
+.active>.page-link, .page-link.active {
+  z-index: 3;
+  color: var(--bs-pagination-active-color);
+  background-color: var(--bs-pagination-active-bg);
+  border-color: rgb(0, 17, 255);
+}
+
+.pagination .page-item .page-link {
+  color: rgb(255, 255, 255);
+  background-color: rgba(0, 0, 0, 0.6783088235294117);
+  border-radius: 5px;
+}
+
+.pagination .page-item .page-link:hover {
+background: radial-gradient(circle, rgb(50, 63, 135) 0%, rgba(0, 0, 0, 0.6783088235294117) 100%);
+  color: rgb(255, 255, 255);
 }

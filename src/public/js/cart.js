@@ -51,24 +51,25 @@ const mostrarCart = async () => {
     const data = await response.json()
 
     // Comienza a construir el HTML del carrito
-    detalleCarrito.innerHTML = `<button class="btn btn-outline-danger" onclick="borrarTodo('${data.response[0]._id}')">Borrar Todo</button>`;
+    detalleCarrito.innerHTML = `<button class="btn btn-outline-danger" onclick="borrarTodo('${data.response[0]._id}')">Eliminar todo</button>`;
 
     // Itera sobre cada producto en el carrito y crea la tarjeta correspondiente
     data.response[0].products.forEach((item) => {
-        const tarjetaProduct = `
-                <li class="list-group-item d-flex align-items-center border">
-                    <img src="${item.product.imagen}" alt="${item.product.titulo}" class="me-3" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
-                    <div class="flex-grow-1">
-                        <p class="mb-1" style="font-size: 0.9rem; font-weight: bold;">${item.product.titulo}</p>
-                        <p class="mb-0" style="font-size: 0.8rem; color: gray;">Precio: $${item.product.precio.toLocaleString('es-CL')}</p>
-                        <div class="d-flex align-items-center mt-2">
-                            <button class="btn btn-sm btn-outline-primary me-2" onclick="modificarCantidad('${data.response[0]._id}', '${item.product._id}', ${item.cantidad - 1})">-</button>
-                            <span>${item.cantidad}</span>
-                            <button class="btn btn-sm btn-outline-primary ms-2" onclick="modificarCantidad('${data.response[0]._id}', '${item.product._id}', ${item.cantidad + 1})">+</button>
-                        </div>
-                    </div>
-                    <button class="btn btn-outline-danger ms-3" onclick="borrarProducto('${data.response[0]._id}', '${item.product._id}')">Borrar</button>
-                </li>`;
+        const tarjetaProduct = `<div class="card">
+        <div class="card-body list-group-item d-flex align-items-center">            
+                <img src="${item.product.imagen}" alt="${item.product.titulo}" class="card-img">   
+                <h5 class="card-title">${item.product.titulo}</h5>        
+            <div class="card-info">
+                <p class="card-text">Precio: $${item.product.precio.toLocaleString('es-CL')}</p>
+                <div class="d-flex align-items-center mt-2 card-info">
+                    <button class="btn btns btn-sm btn-outline-primary me-2" onclick="modificarCantidad('${data.response[0]._id}', '${item.product._id}', ${item.cantidad - 1})">-</button>
+                    <span>${item.cantidad}</span>
+                    <button class="btn btns btn-sm btn-outline-primary ms-2" onclick="modificarCantidad('${data.response[0]._id}', '${item.product._id}', ${item.cantidad + 1})">+</button>
+                </div>
+                <button class="btn btn-outline-danger ms-3" onclick="borrarProducto('${data.response[0]._id}', '${item.product._id}')">Eliminar</button>
+            </div>
+        </div>
+    </div>`;
 
         detalleCarrito.innerHTML += tarjetaProduct; // Agrega el producto al HTML del carrito
     })

@@ -8,7 +8,6 @@ const obtenerProductos = async (page, category = '', sort = '') => {
     if (category) url += `&categoria=${category}`
     if (sort) url += `&sort=${sort}`
 
-    console.log("url peticion", url);
     const response = await fetch(url)
     const data = await response.json()
 
@@ -37,27 +36,27 @@ const obtenerProductos = async (page, category = '', sort = '') => {
 }
 
 // Referencia a la lista de paginación
-const ltsPaginacion = document.querySelector('#ltsPaginacion')
+const Paginacionop = document.querySelector('#Paginacionop')
 
 // Función para manejar la paginación
 const Paginacion = (page, category, totalPages, prevPage, nextPage, sort) => {
-    ltsPaginacion.innerHTML = ''; // Limpia la lista de paginación
+    Paginacionop.innerHTML = ''; // Limpia la lista de paginación
 
     // Si hay una página anterior, muestra el botón
     if (prevPage) {
-        ltsPaginacion.innerHTML += `<li class="page-item"><button class="page-link" onclick="obtenerProductos(${prevPage}, '${category}', '${sort}')">Anterior</button></li>`
+        Paginacionop.innerHTML += `<li class="page-item"><button class="page-link" onclick="obtenerProductos(${prevPage}, '${category}', '${sort}')"><span aria-hidden="true">&laquo;</span></button></li>`
     }
 
     // Agrega los botones de las páginas
     for (let index = 1; index <= totalPages; index++) {
-        ltsPaginacion.innerHTML += `<li class="page-item ${index === page ? 'active' : ''}">
+        Paginacionop.innerHTML += `<li class="page-item ${index === page ? 'active' : ''}">
                                         <button class="page-link" onclick="obtenerProductos(${index}, '${category}', '${sort}')">${index}</button>
                                     </li>`;
     }
 
     // Si hay una página siguiente, muestra el botón
     if (nextPage) {
-        ltsPaginacion.innerHTML += `<li class="page-item"><button class="page-link" onclick="obtenerProductos(${nextPage}, '${category}', '${sort}')">Siguiente</button></li>`;
+        Paginacionop.innerHTML += `<li class="page-item"><button class="page-link" onclick="obtenerProductos(${nextPage}, '${category}', '${sort}')"><span aria-hidden="true">&raquo;</span></button></li>`;
     }
 }
 
