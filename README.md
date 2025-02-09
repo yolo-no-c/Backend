@@ -14,6 +14,7 @@ Antes de comenzar, asegúrate de que tienes instalados:
 Si aún no tienes el código del proyecto, clónalo desde el repositorio:
 - crea una carpeta luego dentro de la carpeta ejecutas cmd y metes el siguiente codigo: 
 git clon https://github.com/yolo-no-c/Backend
+
 -seguido de lo anterior abres el proyecto en un editor de codigo te recomendamos vscode y prosiges con el 2 y 3 paso.
 
 ## 2. Instalación de Dependencias
