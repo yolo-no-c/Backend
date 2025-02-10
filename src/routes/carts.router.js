@@ -1,9 +1,12 @@
 import { Router } from "express";
 import { cartModel } from "../dao/mongo/models/cart.model.js";
 import { ProductModel } from "../dao/mongo/models/products.model.js";
+import mongoose from "mongoose";
+
 
 const router = Router();
 
+// obtener carrito
 router.get('/', async (req, res) => {
     const response = await fetch(`http://localhost:8080/api/carts/679e786229c5021d6084e788`)
     const cart = await response.json()
@@ -13,14 +16,33 @@ router.get('/', async (req, res) => {
     })
 })
 
-// Obtener el carrito por su ID
+// Obtener carrito con ID específico
 router.get('/:cid', async (req, res) => {
-    // Buscamos el carrito por su ID y hacemos un populate para obtener los productos
-    const response = await cartModel.find().populate('products.product');
-    res.json({ response });
+    try {
+        const { cid } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(cid)) {
+            return res.status(400).json({ message: 'ID de carrito no válido' });
+        }
+
+        // Buscar el carrito por su ID y poblar los productos
+        const cart = await cartModel.findById(cid).populate('products.product').exec();
+
+        if (!cart) {
+            return res.status(404).json({ message: 'Carrito no encontrado' });
+        }
+
+        console.log('Carrito con populate completo:', JSON.stringify(cart, null, 2)); 
+
+        res.json({ cart });
+    } catch (error) {
+        console.error('Error al obtener el carrito:', error);
+        res.status(500).json({ message: 'Error al obtener el carrito', error: error.message || error });
+    }
 });
 
-// Actualizar el carrito (agregar o modificar productos)
+
+// Agregar o modificar productos en el carrito
 router.put('/:cid', async (req, res) => {
     const { cid } = req.params;
     const { products } = req.body;

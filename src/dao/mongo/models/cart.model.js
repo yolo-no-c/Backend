@@ -12,7 +12,7 @@ const cartSchema = new Schema({
         type: [{
             product: {
                 type: Schema.Types.ObjectId,
-                ref: 'products'
+                ref: 'product'
             },
             cantidad: {
                 type: Number,
@@ -20,9 +20,7 @@ const cartSchema = new Schema({
                 default: 1
             }
         }],
-        default: []
     }
-
 },
     { timestamps: true });
 
