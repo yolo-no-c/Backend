@@ -29,6 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', ViewsRouter)
 app.use("/api/products", ProductsRoute);
 app.use("/api/carts", CartsRoute);
+app.use("/api/carts/:cid", CartsRoute);
 
 //Esucha el server:
 app.listen(PORT, () => {

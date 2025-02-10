@@ -40,21 +40,4 @@ router.get('/', async (req, res) => {
     res.json({ response }); // Envía la respuesta en formato JSON
 });
 
-// Obtener un producto por ID
-router.get('/:id', async (req, res) => {
-    const { id } = req.params; // Obtiene el ID del producto de los parámetros
-    const product = await model.findById({ _id: id }); // Busca el producto por ID
-    if (!product) return res.json({ mensaje: 'Error', payload: null }); // Si no se encuentra, devuelve un mensaje de error
-    res.json({ payload: product }); // Devuelve el producto encontrado
-});
-
-// Eliminar un producto por ID
-router.delete('/:pid', async (req, res) => {
-    const { pid } = req.params; // Obtiene el ID del producto a eliminar
-    const product = await model.findByQuery({ _id: pid }); // Busca el producto por ID
-    if (!product) return res.status(404).json({ mensaje: 'Producto no encontrado' }); // Devuelve un mensaje si no se encuentra
-    const result = await model.deleteById(pid); // Elimina el producto por ID
-    res.json({ payload: result }); // Devuelve el resultado de la eliminación
-});
-
 export default router;

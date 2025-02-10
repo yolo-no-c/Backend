@@ -22,7 +22,7 @@ router.get('/products/:pid', async (req, res) => {
 
         // Verificar si el producto no fue encontrado
         if (!product) {
-            return res.status(404).render('item', {
+            return res.status(404).render('home', {
                 error: 'Producto no encontrado'
             });
         }
@@ -42,43 +42,7 @@ router.get('/products/:pid', async (req, res) => {
         });
     } catch (error) {
         console.error("Error al obtener el producto:", error);
-        res.status(500).render('item', {
-            error: 'Error interno del servidor'
-        });
-    }
-});
-
-
-
-router.get('/carts/:pid', async (req, res) => {
-    const { pid } = req.params;
-
-    try {
-        // Buscar el producto por su ID
-        const product = await ProductModel.findById(pid);
-
-        // Verificar si el producto no fue encontrado
-        if (!product) {
-            return res.status(404).render('item', {
-                error: 'Producto no encontrado'
-            });
-        }
-
-        // Renderizar los detalles del producto
-        res.render('infoproduct', {
-            product: {
-                _id: product._id,
-                titulo: product.titulo,
-                description: product.description,
-                imagen: product.imagen,
-                precio: product.precio,
-                stock: product.stock,
-                categoria: product.categoria
-            }
-        });
-    } catch (error) {
-        console.error("Error al obtener el producto:", error);
-        res.status(500).render('item', {
+        res.status(500).render('home', {
             error: 'Error interno del servidor'
         });
     }

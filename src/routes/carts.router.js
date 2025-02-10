@@ -20,35 +20,6 @@ router.get('/:cid', async (req, res) => {
     res.json({ response });
 });
 
-// Agregar un producto al carrito
-router.post('/add', async (req, res) => {
-    const { productId, cantidad } = req.body;
-
-    // Buscamos el carrito abierto, si no existe, creamos uno nuevo
-    let cart = await cartModel.findOne({ estado: 'abierto' });
-
-    if (!cart) {
-        cart = await cartModel.create({
-            fecha: new Date().toISOString().replace('T', ' ').slice(0, 19),
-            monto: 0,
-            estado: 'abierto',
-            products: []
-        });
-    }
-
-    // Buscamos el producto por su ID
-    const product = await ProductModel.findById(productId);
-
-    // Agregamos el producto al carrito y actualizamos el monto
-    cart.products.push({ product: productId, cantidad: cantidad });
-    cart.monto += product.precio * cantidad;
-
-    // Actualizamos el carrito en la base de datos
-    const result = await cartModel.updateOne({ _id: cart._id }, cart);
-
-    res.json({ result });
-});
-
 // Actualizar el carrito (agregar o modificar productos)
 router.put('/:cid', async (req, res) => {
     const { cid } = req.params;
@@ -134,6 +105,5 @@ router.delete('/:cid/products/:pid', async (req, res) => {
 
     res.json({ payload: result })
 })
-
 
 export default router;
